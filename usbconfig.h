@@ -37,7 +37,7 @@ section at the end of this file).
 /* This is the bit number in USB_CFG_IOPORT where the USB D- line is connected.
  * This may be any bit in the port.
  */
-#define USB_CFG_DPLUS_BIT       2
+#define USB_CFG_DPLUS_BIT       4
 /* This is the bit number in USB_CFG_IOPORT where the USB D+ line is connected.
  * This may be any bit in the port. Please note that D+ must also be connected
  * to interrupt pin INT0! [You can also use other interrupts, see section
@@ -348,5 +348,17 @@ section at the end of this file).
 /* #define USB_INTR_PENDING        GIFR */
 /* #define USB_INTR_PENDING_BIT    INTF0 */
 /* #define USB_INTR_VECTOR         SIG_INTERRUPT0 */
+
+
+#ifndef SIG_INTERRUPT0
+#define SIG_INTERRUPT0			_VECTOR(1)
+#endif
+
+#define USB_INTR_CFG            PCMSK
+#define USB_INTR_CFG_SET        (1<<USB_CFG_DPLUS_BIT)
+#define USB_INTR_ENABLE_BIT     PCIE
+#define USB_INTR_PENDING_BIT    PCIF
+#define USB_INTR_VECTOR         SIG_PIN_CHANGE
+
 
 #endif /* __usbconfig_h_included__ */
