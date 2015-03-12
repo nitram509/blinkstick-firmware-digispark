@@ -1,3 +1,14 @@
+Why this fork?
+===============
+
+This fork aims to make the Blinkstick.com firmware run on the 
+[Digispark](http://digistump.com/products/1) USB development board.
+
+### Images
+
+![Digispark USB with custom soldered WS2812 LED shield](/pictures/IMG_20150310_234954_117.jpg?raw=true)
+![Red and Green LED on Digispark USB and custom WS2812 LED shield, with Mark Minion](/pictures/IMG_20150310_235913_781.jpg?raw=true)
+
 BlinkStick Firmware
 ===================
 
