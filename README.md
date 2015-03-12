@@ -4,6 +4,17 @@ Why this fork?
 This fork aims to make the Blinkstick.com firmware run on the 
 [Digispark](http://digistump.com/products/1) USB development board.
 
+### Compile and upload firmware
+
+You need to install the Arduino tools as described in the
+[Digispark tutorial: 'Connecting and Programming Your Digispark'](http://digistump.com/wiki/digispark/tutorials/connecting) first.
+
+````
+make clean
+make hex
+/opt/arduino-1.5.8-64bit/hardware/digistump/avr/tools/avrdude -cdigispark --timeout 30 -Uflash:w:main.hex:i
+````
+
 ### Images
 
 ![Digispark USB with custom soldered WS2812 LED shield](/pictures/IMG_20150310_234954_117.jpg?raw=true)
