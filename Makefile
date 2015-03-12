@@ -7,7 +7,7 @@
 # License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
 # This Revision: $Id: Makefile 692 2008-11-07 15:07:40Z cs $
 
-SHELL=C:/Windows/System32/cmd.exe
+#SHELL=C:/Windows/System32/cmd.exe
 
 #DEVICE  = attiny45
 DEVICE  = attiny85
@@ -19,8 +19,8 @@ AVRDUDE = avrdude -c usbtiny -P usb -p $(DEVICE) # edit this line for your progr
 CFLAGS  = -Iusbdrv -I. -DDEBUG_LEVEL=0
 OBJECTS = usbdrv/usbdrv.o usbdrv/usbdrvasm.o usbdrv/oddebug.o light_ws2812.o main.o
 
-COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
-COMPILEPP = avr-g++ -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
+COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU)  $(CFLAGS) -mmcu=$(DEVICE)
+COMPILEPP = avr-g++ -Wall -Os -DF_CPU=$(F_CPU)  $(CFLAGS) -mmcu=$(DEVICE)
 
 # symbolic targets:
 help:
