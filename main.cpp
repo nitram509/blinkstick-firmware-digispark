@@ -115,9 +115,9 @@ uchar usbFunctionWrite(uchar *data, uchar len)
 	if (reportId == 1)
 	{
 		//Set color
-		OCR1B = 255 - data[1];
-		OCR0B = 255 - data[2];
-		OCR0A = 255 - data[3];
+//		OCR1B = data[1];
+		OCR0B = data[2];
+		OCR0A = data[3];
 
 		return 1;
 	}
@@ -317,7 +317,7 @@ extern "C" void usbEventResetReady(void)
 void pwmInit (void)
 {
     /* PWM enable,  */
-//    GTCCR |= _BV(PWM1B) | _BV(COM1B1);
+    GTCCR |= _BV(PWM1B); // | _BV(COM1B1);
 
     TCCR0A |= _BV(WGM00) | _BV(WGM01) | _BV(COM0A1) | _BV(COM0B1);
 
@@ -328,8 +328,8 @@ void pwmInit (void)
     TCCR0B |=  _BV(CS00);
 
     /* Set PWM value to 0. */
-//    OCR0A = 255;   // PB0
-//    OCR0B = 255;   // PB1
+    OCR0A = 255;   // PB0
+    OCR0B = 255;   // PB1
 //    OCR1B = 255;   // PB4
 } 
 
@@ -357,8 +357,8 @@ int main(void)
     }
     usbDeviceConnect();
 
-//    LED_PORT_DDR |= _BV(R_BIT);   /* make the LED bit an output */
-//    LED_PORT_DDR |= _BV(G_BIT);   /* make the LED bit an output */
+    LED_PORT_DDR |= _BV(R_BIT);   /* make the LED bit an output */
+    LED_PORT_DDR |= _BV(G_BIT);   /* make the LED bit an output */
 //    LED_PORT_DDR |= _BV(B_BIT);   /* make the LED bit an output */
 	pwmInit();
 
