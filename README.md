@@ -34,6 +34,15 @@ This repository contains the firmware required for the ATTiny85 chip.
 
 Details about setting up the development environment will be released soon.
 
+### Compile & flash to device
+
+First you need to setup your local development environment as described in [Digispark's Wiki](http://digistump.com/wiki/digispark/tutorials/connecting)
+
+```
+make clean hex
+/opt/arduino-1.5.8-64bit/hardware/digistump/avr/tools/avrdude -cdigispark --timeout 30 -Uflash:w:main.hex:i
+```
+
 License
 =======
 
