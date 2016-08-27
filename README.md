@@ -4,16 +4,6 @@ Why this fork?
 This fork aims to make the Blinkstick.com firmware run on the 
 [Digispark](http://digistump.com/products/1) USB development board.
 
-### Branches
-
-#### ws2812
-
-Use this, if you want to connect an **WS2812 LED**, [example](https://www.sparkfun.com/products/11821)
-
-#### blinkstick-digispark-rgbled
-
-Use this, if you want to connect an **RGB LED**, [example](https://www.sparkfun.com/products/10820)
-
 ### Compile and upload firmware
 
 You need to install the Arduino tools as described in the
