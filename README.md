@@ -4,6 +4,16 @@ Why this fork?
 This fork aims to make the Blinkstick.com firmware run on the 
 [Digispark](http://digistump.com/products/1) USB development board.
 
+### Branches
+
+#### ws2812
+
+Use this, if you want to connect an **WS2812 LED**, [example](https://www.sparkfun.com/products/11821)
+
+#### blinkstick-digispark-rgbled
+
+Use this, if you want to connect an **RGB LED**, [example](https://www.sparkfun.com/products/10820)
+
 ### Compile and upload firmware
 
 You need to install the Arduino tools as described in the
@@ -34,14 +44,6 @@ This repository contains the firmware required for the ATTiny85 chip.
 
 Details about setting up the development environment will be released soon.
 
-### Compile & flash to device
-
-First you need to setup your local development environment as described in [Digispark's Wiki](http://digistump.com/wiki/digispark/tutorials/connecting)
-
-```
-make clean hex
-/opt/arduino-1.5.8-64bit/hardware/digistump/avr/tools/avrdude -cdigispark --timeout 30 -Uflash:w:main.hex:i
-```
 
 License
 =======
