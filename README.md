@@ -9,10 +9,35 @@ This fork aims to make the Blinkstick.com firmware run on the
 You need to install the Arduino tools as described in the
 [Digispark tutorial: 'Connecting and Programming Your Digispark'](http://digistump.com/wiki/digispark/tutorials/connecting) first.
 
+#### Build the firmware
+
+For building the firmware there's a Makefile available.
+Please, cross-check the first lines in the Makefile, so that your local Arduino paths match. 
+
 ````
 make clean
 make hex
+````
+
+#### Flashing with Ardino 1.6.x
+
+Flashing the firmware to the microcontroller requires the above mentioned Digispark plugins installed.
+With Arduino 1.6.x the following command let you flash the .hex file.
+This method is outdated and does not work anymore with current OSX (by May 2020).
+It might work with older Linux releases still. I recommend switching to Arduino 1.8.x variant below.
+
+````
 /opt/arduino-1.5.8-64bit/hardware/digistump/avr/tools/avrdude -cdigispark --timeout 30 -Uflash:w:main.hex:i
+````
+
+#### Flashing with Arduino 1.8.x
+
+With Arduino 1.8.x some changes where made and flashing the ATTiny85 is different now,
+because of an updated toolchain. 
+
+(Example OSX)
+````
+~/Library/Arduino15/packages/digistump/tools/micronucleus/2.0a4/launcher -cdigispark --timeout 30 -Uflash:w:main.hex:i
 ````
 
 ### Images
@@ -25,7 +50,7 @@ BlinkStick Firmware
 
 BlinkStick is a DIY open source USB RGB LED. It's small, the 
 size of a USB flash stick and designed to be easy to assemble. 
-
+    
 You can find more details about it here:
 
 http://www.blinkstick.com

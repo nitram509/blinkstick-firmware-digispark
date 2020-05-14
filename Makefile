@@ -8,19 +8,21 @@
 # This Revision: $Id: Makefile 692 2008-11-07 15:07:40Z cs $
 
 #SHELL=C:/Windows/System32/cmd.exe
+AVR_BIN_PATH = /Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/
+# AVR_BIN_PATH = ~/Library/Arduino15/packages/arduino/tools/avr-gcc/4.8.1-arduino5/bin
 
 #DEVICE  = attiny45
 DEVICE  = attiny85
 F_CPU   = 16500000
 FUSE_L  = 0xe1
 FUSE_H  = 0xdd
-AVRDUDE = avrdude -c usbtiny -P usb -p $(DEVICE) # edit this line for your programmer
+AVRDUDE = $(AVR_BIN_PATH)/avrdude -c usbtiny -P usb -p $(DEVICE) -C $(AVR_BIN_PATH)/../etc/avrdude.conf # edit this line for your programmer
 
-CFLAGS  = -Iusbdrv -I. -DDEBUG_LEVEL=0
+CFLAGS  = -Iusbdrv -I. -DDEBUG_LEVEL=0 -Wno-narrowing
 OBJECTS = usbdrv/usbdrv.o usbdrv/usbdrvasm.o usbdrv/oddebug.o light_ws2812.o main.o
 
-COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU)  $(CFLAGS) -mmcu=$(DEVICE)
-COMPILEPP = avr-g++ -Wall -Os -DF_CPU=$(F_CPU)  $(CFLAGS) -mmcu=$(DEVICE)
+COMPILE = $(AVR_BIN_PATH)/avr-gcc -Wall -Os -DF_CPU=$(F_CPU)  $(CFLAGS) -mmcu=$(DEVICE)
+COMPILEPP = $(AVR_BIN_PATH)/avr-g++ -Wall -Os -DF_CPU=$(F_CPU)  $(CFLAGS) -mmcu=$(DEVICE)
 
 # symbolic targets:
 help:
@@ -94,13 +96,13 @@ main.elf: usbdrv $(OBJECTS)	# usbdrv dependency only needed because we copy it
 
 main.hex: main.elf
 	rm -f main.hex main.eep.hex
-	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
-	avr-size main.hex
+	$(AVR_BIN_PATH)/avr-objcopy -j .text -j .data -O ihex main.elf main.hex
+	$(AVR_BIN_PATH)/avr-size main.hex
 
 # debugging targets:
 
 disasm:	main.elf
-	avr-objdump -d main.elf
+	$(AVR_BIN_PATH)/avr-objdump -d main.elf
 
 cpp:
 	$(COMPILE) -E main.cpp
