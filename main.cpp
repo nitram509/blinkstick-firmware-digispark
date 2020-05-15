@@ -125,9 +125,8 @@ uchar usbFunctionWrite(uchar *data, uchar len)
 			g = data[2];
 			b = data[3];
 
-
+			// switch color order "G,R,B"
 			uint8_t led[3];
-			
 			led[0]=data[2];
 			led[1]=data[1];
 			led[2]=data[3];
@@ -209,27 +208,6 @@ extern "C" usbMsgLen_t usbFunctionSetup(uchar data[8])
 	usbRequest_t    *rq = (usbRequest_t *)data;
 	reportId = rq->wValue.bytes[0];
 
-	/* this code is no longer needed
-    if((rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_VENDOR)
-	{
-		switch(rq->bRequest)
-		{
-		case CUSTOM_RQ_SET_RED:
-			r = 255 - rq->wValue.bytes[0];
-			OCR0B = r;
-			break;	
-		case CUSTOM_RQ_SET_GREEN:
-			g = 255 - rq->wValue.bytes[0];
-			OCR0A = g;
-			break;	
-		case CUSTOM_RQ_SET_BLUE:
-			b = 255 - rq->wValue.bytes[0];
-			OCR1B = b;
-			break;	
-		}
-    }
-	else 
-	*/
 	if((rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_CLASS){ /* HID class request */
         if(rq->bRequest == USBRQ_HID_GET_REPORT){ /* wValue: ReportType (highbyte), ReportID (lowbyte) */
 			 usbMsgPtr = replyBuffer;
@@ -354,10 +332,18 @@ void pwmInit (void)
     OCR1B = 255;   // PB4
 } 
 
+static void signal_one_time_flash(void) 
+{
+	uint8_t led[3];
+	led[0]=32; led[1]=32; led[2]=32;
+	ws2812_sendarray_mask(&led[0], 3, _BV(PB1));
+    _delay_ms(10);
+	led[0]=0; led[1]=0; led[2]=0;
+	ws2812_sendarray_mask(&led[0], 3, _BV(PB1));
+}
+
 int main(void)
 {
-	uchar   i;
-
     wdt_enable(WDTO_1S);
 
 	SetSerial();
@@ -371,7 +357,7 @@ int main(void)
 
     usbInit();
     usbDeviceDisconnect();  /* enforce re-enumeration, do this while interrupts are disabled! */
-    i = 0;
+    uchar i = 0;
     while(--i){             /* fake USB disconnect for > 250 ms */
         wdt_reset();
         _delay_ms(1);
@@ -380,21 +366,9 @@ int main(void)
 	
 	DDRB |= _BV(PB1);
 	
-    //LED_PORT_DDR |= _BV(R_BIT);   /* make the LED bit an output */
-    //LED_PORT_DDR |= _BV(G_BIT);   /* make the LED bit an output */
-    //LED_PORT_DDR |= _BV(B_BIT);   /* make the LED bit an output */
-	//pwmInit();
-
-
-	uint8_t led[3];
-	
-	led[0]=32; led[1]=32; led[2]=32;
-	ws2812_sendarray_mask(&led[0], 3, _BV(PB1));
-    _delay_ms(10);
-	led[0]=0; led[1]=0; led[2]=0;
-	ws2812_sendarray_mask(&led[0], 3, _BV(PB1));
-
-    sei();
+	signal_one_time_flash();
+    
+	sei();
 
     for(;;){                /* main event loop */
         wdt_reset();
