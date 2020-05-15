@@ -21,3 +21,8 @@
 *.hex
 
 serial.txt
+
+# editors 
+.vscode/
+.idea/
+*.iml
