@@ -19,7 +19,7 @@ make clean
 make hex
 ````
 
-#### Flashing with Ardino 1.6.x
+#### Flashing with Arduino 1.6.x
 
 Flashing the firmware to the microcontroller requires the above mentioned Digispark plugins installed.
 With Arduino 1.6.x the following command let you flash the .hex file.
