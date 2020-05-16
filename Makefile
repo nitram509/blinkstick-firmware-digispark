@@ -16,7 +16,8 @@ DEVICE  = attiny85
 F_CPU   = 16500000
 FUSE_L  = 0xe1
 FUSE_H  = 0xdd
-AVRDUDE = $(AVR_BIN_PATH)/avrdude -c usbtiny -P usb -p $(DEVICE) -C $(AVR_BIN_PATH)/../etc/avrdude.conf # edit this line for your programmer
+# PROGRAMM_COMMAND = $(AVR_BIN_PATH)/avrdude -c usbtiny -P usb -p $(DEVICE) -C $(AVR_BIN_PATH)/../etc/avrdude.conf # edit this line for your programmer
+PROGRAMM_COMMAND = ~/Library/Arduino15/packages/digistump/tools/micronucleus/2.0a4/launcher -cdigispark --timeout 30 # edit this line for your programmer
 
 CFLAGS  = -Iusbdrv -I. -DDEBUG_LEVEL=0 -Wno-narrowing
 OBJECTS = usbdrv/usbdrv.o usbdrv/usbdrvasm.o usbdrv/oddebug.o light_ws2812.o main.o
@@ -45,20 +46,20 @@ program: flash fuse
 fuse:
 	@[ "$(FUSE_H)" != "" -a "$(FUSE_L)" != "" ] || \
 		{ echo "*** Edit Makefile and choose values for FUSE_L and FUSE_H!"; exit 1; }
-	$(AVRDUDE) -U hfuse:w:$(FUSE_H):m -U lfuse:w:$(FUSE_L):m
+	$(PROGRAMM_COMMAND) -U hfuse:w:$(FUSE_H):m -U lfuse:w:$(FUSE_L):m
 
 # rule for uploading firmware:
 flash: main.hex
-	$(AVRDUDE) -U flash:w:main.hex:i
+	$(PROGRAMM_COMMAND) -U flash:w:main.hex:i
 
 dump: 
-	$(AVRDUDE) -U eeprom:r:blinkstick-eeprom.hex:i
+	$(PROGRAMM_COMMAND) -U eeprom:r:blinkstick-eeprom.hex:i
 
 dumpflash: 
-	$(AVRDUDE) -U flash:r:blinkstick-flash.hex:i
+	$(PROGRAMM_COMMAND) -U flash:r:blinkstick-flash.hex:i
 
 defaults: 
-	$(AVRDUDE) -B 3 -U eeprom:w:eeprom.hex:i
+	$(PROGRAMM_COMMAND) -B 3 -U eeprom:w:eeprom.hex:i
 
 # rule for deleting dependent files (those which can be built by Make):
 clean:
