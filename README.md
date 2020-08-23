@@ -40,6 +40,15 @@ because of an updated toolchain.
 ~/Library/Arduino15/packages/digistump/tools/micronucleus/2.0a4/launcher -cdigispark --timeout 30 -Uflash:w:main.hex:i
 ````
 
+#### Change number of LEDs
+
+In the ```main.cpp``` file, you can define the number of LEDs,
+e.g. when you wabt to connect a [Neopixel](https://www.adafruit.com/category/168)
+
+```cpp
+#define NUMBER_OF_LEDS   64
+```
+
 ### Images
 
 ![Digispark USB with custom soldered WS2812 LED shield](/pictures/IMG_20150310_234954_117.jpg?raw=true)
