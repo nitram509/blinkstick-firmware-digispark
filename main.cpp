@@ -13,6 +13,8 @@
 #define G_BIT            0
 #define B_BIT            4
 
+#define NUMBER_OF_LEDS   1  // because of hardware restrictions, 
+                            // the maximum is around ca. 500... to be tested further
 
 #include <avr/io.h>
 #include <avr/wdt.h>
@@ -126,13 +128,14 @@ uchar usbFunctionWrite(uchar *data, uchar len)
 			b = data[3];
 
 			// switch color order "G,R,B"
-			uint8_t led[3];
-			led[0]=data[2];
-			led[1]=data[1];
-			led[2]=data[3];
-
+			uint8_t led_data[NUMBER_OF_LEDS * 3];
+			for (uint16_t i=0; i<NUMBER_OF_LEDS; i++) {
+				led_data[i*3 + 0] = data[2];
+				led_data[i*3 + 1] = data[1];
+				led_data[i*3 + 2] = data[3];
+			}
 			cli(); //Disable interrupts
-			ws2812_sendarray_mask(&led[0], 3, _BV(PB1));
+			ws2812_sendarray_mask(&led_data[0], sizeof(led_data), _BV(PB1));
 			sei(); //Enable interrupts
 		}
 
